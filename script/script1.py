@@ -45,7 +45,7 @@ for i in range(len(t)-1):
     V[i+1] = V[i] + dV * 0.1
 
 #affichage 
-plt.figure()
+plt.figure(figsize=[10,6])
 plt.plot(t, S, label='S')
 plt.plot(t, I, label='I')
 plt.plot(t, R, label='R')
@@ -59,5 +59,5 @@ plt.show()
 
 
 X = V + R
-
+Y = np.abs(X - 0.75*N).argmin()
 # %%
