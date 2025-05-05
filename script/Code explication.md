@@ -1,126 +1,114 @@
-# Explication du script
+# Explication ligne par ligne du script `script1.py`
 
-Ce script modélise la propagation d'une maladie dans une population en utilisant un modèle mathématique appelé le modèle SIRV. Il simule comment le nombre de personnes susceptibles, infectées, rétablies et vaccinées évolue au fil du temps, puis affiche ces résultats sous forme de graphique.
-
----
-
-## Début du script
-
-```python
+```python:script\script1.py
 # @ Auteur: Basri, Miahy
 # @ Crée le : 05/05/2025 13:54:25
 # @ Description: fichier de script pour le projet en outils numériques
 ```
-
-Ce sont des commentaires qui indiquent qui a écrit le code, la date de création, et une brève description.
-
----
-
-## Importation des modules
+**Lignes 1-3 :** Commentaires d'en-tête indiquant l'auteur, la date de création et une brève description du script.
 
 ```python
+#%%
+
+# Importation des modules
 import numpy as np
 import matplotlib.pyplot as plt
 ```
-
-On importe deux bibliothèques : `numpy` pour faire des calculs avec des tableaux, et `matplotlib.pyplot` pour créer des graphiques.
-
----
-
-## Définition des variables
+**Lignes 4-8 :** Définition d'une section (souvent pour l'organisation dans certains IDE) et importation des modules `numpy` (pour les calculs numériques) et `matplotlib.pyplot` (pour la visualisation).
 
 ```python
+# définition des variables
 N = 1000 # population totale
-I0 = 1 # personnes infectées au début
-R0 = 0 # personnes rétablies au début
-V0 = 0 # personnes vaccinées au début
-tf = 150 # nombre de jours pour la simulation
-S0 = N - I0 - R0 - V0 # personnes susceptibles au début
-β = 0.4 # taux de contact (probabilité que la maladie se transmet)
-γ = 0.05 # taux de rétablissement (probabilité de guérir chaque jour)
-α = 0.02 # taux de vaccination (probabilité qu'une personne se vaccine chaque jour)
+I0 = 1 #personnes infectées
+R0 = 0 #personnes rétablis
+V0 = 0 #personnes vaccinées
+tf = 150 #jours
+S0 = N - I0 - R0 - V0 #personnes susceptibles
+β = 0.4 #taux de contact
+γ = 0.05 #taux de rétablissement
+α = 0.02 #taux de vaccination
 ```
-
-Ces variables fixent la taille de la population, le nombre initial de personnes dans chaque groupe, la durée de la simulation, et les taux qui décrivent la transmission, la guérison et la vaccination.
-
----
-
-## Création des tableaux pour stocker les résultats
+**Lignes 9-17 :** Initialisation des paramètres du modèle :
+- `N` : population totale.
+- `I0`, `R0`, `V0` : conditions initiales pour infectés, rétablis, vaccinés.
+- `tf` : durée totale de la simulation.
+- `S0` : susceptibles initiales, calculées par différence.
+- `β`, `γ`, `α` : taux de transmission, de rétablissement, de vaccination.
 
 ```python
-I = np.zeros(tf+1) # personnes infectées chaque jour
-R = np.zeros(tf+1) # personnes rétablies chaque jour
-S = np.zeros(tf+1) # personnes susceptibles chaque jour
-V = np.zeros(tf+1) # personnes vaccinées chaque jour
-t = np.arange(0, tf+1, 1) # tableau du temps (jours)
+# tableaux
+t = np.arange(0, tf+1, 0.1) #temps
+S = np.zeros(len(t)) #personnes susceptibles
+I = np.zeros(len(t)) #personnes infectées
+R = np.zeros(len(t)) #personnes rétablies
+V = np.zeros(len(t)) #personnes vaccinées
 ```
-
-On prépare des listes pour enregistrer le nombre de personnes dans chaque groupe pour chaque jour.
-
----
-
-## Conditions initiales
+**Lignes 18-23 :** Création des tableaux pour le temps (`t`) et pour stocker l'évolution des populations (`S`, `I`, `R`, `V`) initialisés à zéro.
 
 ```python
+# conditions initiales
 I[0] = I0
 R[0] = R0
 S[0] = S0
 V[0] = V0
 ```
-
-On initialise ces listes avec le nombre de personnes au début de la simulation.
-
----
-
-## Boucle de calcul pour chaque jour
+**Lignes 24-27 :** Affectation des conditions initiales aux premiers éléments des tableaux.
 
 ```python
-for i in range(tf):
-    dS = -β * S[i] * I[i] / N - α * S[i] # changement du nombre de susceptibles
-    dI = β * S[i] * I[i] / N - γ * I[i] # changement du nombre d'infectés
-    dR = γ * I[i] # changement du nombre de rétablis
-    dV = α * S[i] # changement du nombre de vaccinés
+#variations
+for i in range(len(t)-1):
+    dS = -β*S[i]*I[i]/N - α*S[i] #variation de S
+    dI = β*S[i]*I[i]/N - γ*I[i] #variation de I
+    dR = γ*I[i] #variation de R
+    dV = α*S[i] #variation de V
     
-    S[i+1] = S[i] + dS
-    I[i+1] = I[i] + dI
-    R[i+1] = R[i] + dR
-    V[i+1] = V[i] + dV
+    S[i+1] = S[i] + dS * 0.1
+    I[i+1] = I[i] + dI * 0.1
+    R[i+1] = R[i] + dR * 0.1
+    V[i+1] = V[i] + dV * 0.1
+```
+**Lignes 28-36 :** Boucle pour l'intégration numérique :
+- Calcul des variations (`dS`, `dI`, `dR`, `dV`) à chaque pas, selon les équations différentielles.
+- Mise à jour des populations pour l'étape suivante en utilisant la méthode d'Euler avec un pas de 0.1.
+
+```python
+X = V + R
+Y = np.abs(X - 0.75*N).argmin()
 ```
 
-Pour chaque jour, on calcule combien de personnes deviennent susceptibles, infectées, rétablies ou vaccinées, en utilisant des formules simples. Ensuite, on met à jour le nombre dans chaque groupe pour le jour suivant.
 
----
 
-## Affichage des résultats
+
+
+
+
+
+**Lignes 37-38 :** Calcul du moment où la somme des vaccinés et rétablis (`V + R`) est la plus proche de 75% de la population (`0.75 * N`) :
+- `X` : somme à chaque instant.
+- `Y` : indice du tableau où cette somme est la plus proche de 75%.
 
 ```python
-plt.figure()
+#affichage 
+plt.figure(figsize=[10,6])
 plt.plot(t, S, label='S')
 plt.plot(t, I, label='I')
 plt.plot(t, R, label='R')
 plt.plot(t, V, label='V')
 plt.xlabel('temps')
 plt.ylabel('population')
+plt.axvline(t[Y], color='k', linestyle='--', label=f'75% atteint à t = {t[Y]:.1f} jours')
 plt.title('Modèle SIRV')
 plt.legend()
 plt.grid(ls='dashed')
 plt.show()
 ```
-
-On crée un graphique avec quatre lignes, représentant l'évolution des groupes dans le temps. On ajoute des légendes, des étiquettes, un titre, une grille, puis on affiche le graphique.
-
----
-
-## Fin du script
-
-```python
-# %%
-```
-
-Ceci indique la fin ou une section du script dans certains environnements.
+**Lignes 39-47 :** Visualisation graphique :
+- Création d'une figure.
+- Tracé des courbes pour chaque population (`S`, `I`, `R`, `V`) en fonction du temps.
+- Ajout d'une ligne verticale indiquant le moment où 75% de la population est vaccinée ou rétablie.
+- Ajout de légendes, titre, axes, grille, puis affichage.
 
 ---
 
-## Résumé
-
-Ce script simule la propagation d'une maladie dans une population en utilisant des calculs simples, puis affiche un graphique pour visualiser comment le nombre de personnes infectées, rétablies, susceptibles et vaccinées évolue au fil du temps. Il permet de mieux comprendre l'évolution d'une épidémie et l'effet de la vaccination.
+**Résumé :**  
+Ce script modélise la dynamique d'une épidémie avec vaccination en utilisant la méthode d'Euler. Il calcule l'évolution des populations susceptibles, infectés, rétablis et vaccinés, puis identifie le moment où 75% de la population est protégée, en visualisant le tout dans un graphique.
