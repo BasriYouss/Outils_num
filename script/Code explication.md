@@ -122,10 +122,7 @@ plt.show()
 
 **Résumé :**  
 Ce script modélise la dynamique d'une épidémie avec vaccination en utilisant la méthode d'Euler. Il calcule l'évolution des populations susceptibles, infectés, rétablis et vaccinés, puis identifie le moment où 75% de la population est protégée, en visualisant le tout dans un graphique.
-<center>
+
 
 **Annexe**
-
-</center>
-
 ![SIRV.png](../img/SIRV.png)
