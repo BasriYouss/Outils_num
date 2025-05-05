@@ -8,13 +8,13 @@ Finalement, les personnes pouvant se faire vacciner sont appelées les vaccinés
 
 La dynamique de l'épidémie suit le système d'équation suivant :  
 
-$$\dfrac{dS}{dt} = - \beta \dfrac{SI}{N} - \alpha S \\$$
+$\dfrac{dS}{dt} = - \beta \dfrac{SI}{N} - \alpha S \\$
 
-$$\dfrac{dI}{dt} = \beta \dfrac{SI}{N} - \lambda I \\$$
+$\dfrac{dI}{dt} = \beta \dfrac{SI}{N} - \lambda I \\$
 
-$$\dfrac{dR}{dt} = \lambda I \\$$
+$\dfrac{dR}{dt} = \lambda I \\$
 
-$$\dfrac{dV}{dt} = \alpha S$$
+$\dfrac{dV}{dt} = \alpha S$
 
 
 
