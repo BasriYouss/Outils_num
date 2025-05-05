@@ -32,22 +32,21 @@ R[0] = R0
 S[0] = S0
 V[0] = V0
 
-#variations
+# fonctions
 for i in range(len(t)-1):
     dS = -β*S[i]*I[i]/N - α*S[i] #variation de S
     dI = β*S[i]*I[i]/N - γ*I[i] #variation de I
     dR = γ*I[i] #variation de R
     dV = α*S[i] #variation de V
-    
-    S[i+1] = S[i] + dS * 0.1
+    #calcul des valeurs au rang suivant
+    S[i+1] = S[i] + dS * 0.1 
     I[i+1] = I[i] + dI * 0.1
     R[i+1] = R[i] + dR * 0.1
     V[i+1] = V[i] + dV * 0.1
 
-
-
-X = V + R
-Y = np.abs(X - 0.75*N).argmin()
+#calcul du temps où 75% de la population est vaccinée ou rétablie
+X = V + R #population vaccinée ou rétablie
+Y = np.abs(X - 0.75*N).argmin() #temps où 75% de la population est vaccinée ou rétablie
 
 #affichage 
 plt.figure(figsize=[10,6])
@@ -55,7 +54,7 @@ plt.plot(t, S, label='S')
 plt.plot(t, I, label='I')
 plt.plot(t, R, label='R')
 plt.plot(t, V, label='V')
-plt.xlabel('temps')
+plt.xlabel('temps en jours')
 plt.ylabel('population')
 plt.axvline(t[Y], color='k', linestyle='--', label=f'75% atteint à t = {t[Y]:.1f} jours')
 plt.title('Modèle SIRV')
