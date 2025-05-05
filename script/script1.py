@@ -7,6 +7,11 @@
 # Importation des modules
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+
+# chemin pour images générées
+path = os.pardir + "/img/"
+os.makedirs(path, exist_ok=True)
 
 # définition des variables
 N = 1000 # population totale
@@ -60,6 +65,7 @@ plt.axvline(t[Y], color='k', linestyle='--', label=f'75% atteint à t = {t[Y]:.1
 plt.title('Modèle SIRV')
 plt.legend()
 plt.grid(ls='dashed')
+plt.savefig(path + 'SIRV.png')
 plt.show()
 
 
