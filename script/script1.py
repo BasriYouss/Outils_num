@@ -44,6 +44,11 @@ for i in range(len(t)-1):
     R[i+1] = R[i] + dR * 0.1
     V[i+1] = V[i] + dV * 0.1
 
+
+
+X = V + R
+Y = np.abs(X - 0.75*N).argmin()
+
 #affichage 
 plt.figure(figsize=[10,6])
 plt.plot(t, S, label='S')
@@ -52,12 +57,11 @@ plt.plot(t, R, label='R')
 plt.plot(t, V, label='V')
 plt.xlabel('temps')
 plt.ylabel('population')
+plt.axvline(t[Y], color='k', linestyle='--', label=f'75% atteint à t = {t[Y]:.1f} jours')
 plt.title('Modèle SIRV')
 plt.legend()
 plt.grid(ls='dashed')
 plt.show()
 
 
-X = V + R
-Y = np.abs(X - 0.75*N).argmin()
 # %%
