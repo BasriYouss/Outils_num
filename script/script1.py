@@ -50,10 +50,10 @@ Y = np.abs(X - 0.75*N).argmin() #temps où 75% de la population est vaccinée ou
 
 #affichage 
 plt.figure(figsize=[10,6])
-plt.plot(t, S, label='S')
-plt.plot(t, I, label='I')
-plt.plot(t, R, label='R')
-plt.plot(t, V, label='V')
+plt.plot(t, S, label='S t) : personnes susceptibles')
+plt.plot(t, I, label='I (t) : personnes infectées')
+plt.plot(t, R, label='R (t) : personnes rétablies')
+plt.plot(t, V, label='V (t) : personnes vaccinées')
 plt.xlabel('temps en jours')
 plt.ylabel('population')
 plt.axvline(t[Y], color='k', linestyle='--', label=f'75% atteint à t = {t[Y]:.1f} jours')
