@@ -20,11 +20,11 @@ S0 = N - I0 - R0 - V0 #personnes susceptibles
 α = 0.02 #taux de vaccination
 
 # tableaux
-I = np.zeros(tf+1) #personnes infectées
-R = np.zeros(tf+1) #personnes rétablies
-S = np.zeros(tf+1) #personnes susceptibles
-V = np.zeros(tf+1) #personnes vaccinées
-t = np.arange(0,tf+1,1) #temps
+t = np.arange(0, tf+1, 0.1) #temps
+S = np.zeros(len(t)) #personnes susceptibles
+I = np.zeros(len(t)) #personnes infectées
+R = np.zeros(len(t)) #personnes rétablies
+V = np.zeros(len(t)) #personnes vaccinées
 
 # conditions initiales
 I[0] = I0
@@ -33,28 +33,31 @@ S[0] = S0
 V[0] = V0
 
 #variations
-for i in range(tf):
+for i in range(len(t)-1):
     dS = -β*S[i]*I[i]/N - α*S[i] #variation de S
     dI = β*S[i]*I[i]/N - γ*I[i] #variation de I
     dR = γ*I[i] #variation de R
     dV = α*S[i] #variation de V
     
-    S[i+1] = S[i] + dS
-    I[i+1] = I[i] + dI
-    R[i+1] = R[i] + dR
-    V[i+1] = V[i] + dV
+    S[i+1] = S[i] + dS * 0.1
+    I[i+1] = I[i] + dI * 0.1
+    R[i+1] = R[i] + dR * 0.1
+    V[i+1] = V[i] + dV * 0.1
 
 #affichage 
 plt.figure()
-plt.plot(t,S,label='S')
-plt.plot(t,I,label='I')
-plt.plot(t,R,label='R')
-plt.plot(t,V,label='V')
+plt.plot(t, S, label='S')
+plt.plot(t, I, label='I')
+plt.plot(t, R, label='R')
+plt.plot(t, V, label='V')
 plt.xlabel('temps')
 plt.ylabel('population')
 plt.title('Modèle SIRV')
 plt.legend()
 plt.grid(ls='dashed')
 plt.show()
+
+
+X = V + R
 
 # %%
