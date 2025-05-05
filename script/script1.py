@@ -16,7 +16,9 @@ S0 = N - I0 - R0 - V0 #personnes susceptibles
 β = 0.4 #taux de contact
 γ = 0.05 #taux de rétablissement
 α = 0.02 #taux de vaccination
-dS = -β*S*I/N - αS #variation de S
-dI = β*S*I/N - γ*I #variation de I
-dR = γ*I #variation de R
-dV = α*S #variation de V
+
+#variations
+#dS = -β*S*I/N - αS #variation de S
+#dI = β*S*I/N - γ*I #variation de I
+#dR = γ*I #variation de R
+#dV = α*S #variation de V
