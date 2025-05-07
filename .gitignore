@@ -36,3 +36,7 @@ Thumbs.db
 
 # images générées
 /img/
+
+# tqt
+*.tex
+/test/*
