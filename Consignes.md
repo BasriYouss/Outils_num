@@ -48,3 +48,20 @@ Les critères d'évaluation sont :
 1. La discrétisation et la justification de la méthode numérique employée  
 2. L'interprétation physique des graphiques obtenus  
 3. La qualité de la présentation et des figures
+
+### Bonus :
+Ajouter un taux de décès (μ) qui fait passer les personnes infectées dans une nouvelle catégorie pour les personnes décédés, noté D(t).
+
+Le système d'équations devient alors:
+
+$\dfrac{dS}{dt} = - \beta \dfrac{SI}{N} - \alpha S$
+
+$\dfrac{dI}{dt} = \beta \dfrac{SI}{N} - \lambda I - \mu I$
+
+$\dfrac{dR}{dt} = \lambda I$
+
+$\dfrac{dV}{dt} = \alpha S$
+
+$\dfrac{dD}{dt} = \mu I$
+
+avec μ = 0.01 (taux de mortalité)
