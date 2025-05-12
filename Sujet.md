@@ -81,3 +81,55 @@ plt.title('Dynamique SIRD avec vaccination')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+<div style="page-break-before:always">&nbsp;</div>
+<p></p>
+
+### Explication ligne par ligne du code Python
+
+```python
+# Importation des bibliothèques nécessaires
+import numpy as np                    # Pour les calculs numériques
+from scipy.integrate import solve_ivp # Pour résoudre les équations différentielles
+import matplotlib.pyplot as plt       # Pour la visualisation des données
+
+# Définition des paramètres du modèle
+beta, lambda_, alpha = 0.4, 0.05, 0.02  # Taux de transmission (beta), de guérison (lambda_) et de vaccination (alpha)
+N = 1000                                # Taille totale de la population
+S0, I0, R0, V0 = 999, 1, 0, 0          # Conditions initiales: 999 susceptibles, 1 infecté, 0 rétabli, 0 vacciné
+t_span = (0, 150)                       # Intervalle de temps de simulation (0 à 150 jours)
+
+# Définition du système d'équations différentielles
+def deriv(t, y):
+    S, I, R, V = y                      # Décomposition du vecteur d'état
+    dSdt = - (beta * S * I) / N - alpha * S  # Variation des susceptibles
+    dIdt = (beta * S * I) / N - lambda_ * I  # Variation des infectés
+    dRdt = lambda_ * I                       # Variation des rétablis
+    dVdt = alpha * S                         # Variation des vaccinés
+    return [dSdt, dIdt, dRdt, dVdt]         # Retourne les dérivées
+
+# Résolution numérique du système d'équations
+sol = solve_ivp(deriv, t_span, [S0, I0, R0, V0], t_eval=np.linspace(0, 150, 1000))
+t = sol.t                               # Extraction des temps
+S, I, R, V = sol.y                      # Extraction des solutions pour chaque compartiment
+
+# Calcul du moment où 75% de la population est immunisée (vaccinés + rétablis)
+V_plus_R = V + R                        # Somme des vaccinés et rétablis
+seuil = 0.75 * N                        # Calcul du seuil de 75%
+temps_seuil = t[np.where(V_plus_R >= seuil)[0][0]]  # Temps où le seuil est atteint
+
+# Création et paramétrage du graphique
+plt.figure(figsize=(10, 6))             # Définition de la taille de la figure
+plt.plot(t, S, label='Susceptibles')    # Tracé des susceptibles
+plt.plot(t, I, label='Infectieux', color='red')     # Tracé des infectieux
+plt.plot(t, R, label='Rétablis', color='green')     # Tracé des rétablis
+plt.plot(t, V, label='Vaccinés', color='purple')    # Tracé des vaccinés
+plt.axvline(temps_seuil, color='k', linestyle='--', 
+           label=f'75% atteint à t = {temps_seuil:.1f} jours')  # Ligne verticale pour le seuil
+plt.xlabel('Temps (jours)')             # Étiquette de l'axe x
+plt.ylabel('Population')                 # Étiquette de l'axe y
+plt.title('Dynamique SIRD avec vaccination')  # Titre du graphique
+plt.legend()                            # Affichage de la légende
+plt.grid(True)                          # Affichage de la grille
+plt.show()                              # Affichage du graphique
+```
